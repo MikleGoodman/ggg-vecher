@@ -10,6 +10,7 @@
 <meta property="og:description" content="Свеча, два бокала, колода между вами. 150 вопросов — от смеха до разговоров, которые откладывают годами.">
 <meta property="og:image" content="https://miklegoodman.github.io/ggg-vecher/img/hero.jpg">
 <meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/png" href="img/logo_small.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Marck+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
@@ -81,6 +82,11 @@ h2{font-size:clamp(1.7rem,4.5vw,2.7rem)}
   font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.3em;
   color:var(--gold);font-size:.95rem;
 }
+.hero-logo{
+  display:block;width:clamp(160px,30vw,240px);height:auto;margin:0 auto 10px;
+  filter:drop-shadow(0 8px 34px rgba(201,162,39,.4));
+}
+.foot-logo{display:block;width:64px;height:auto;margin:0 auto 18px;opacity:.92}
 /* ——— кнопки ——— */
 .btn{
   display:inline-block;position:relative;text-decoration:none;cursor:pointer;
@@ -136,7 +142,6 @@ h2{font-size:clamp(1.7rem,4.5vw,2.7rem)}
   70%{opacity:.75;transform:translate(-50%,-50%) scale(.99)}
 }
 .hero-inner{position:relative;z-index:2;text-align:center;width:100%}
-.hero .monogram{display:block;margin-bottom:34px}
 .hero h1{margin-bottom:18px}
 .hero .script{font-size:clamp(1.5rem,4.5vw,2.3rem);display:block;margin-bottom:26px}
 .hero .serif-sub{max-width:620px;margin:0 auto 46px}
@@ -336,7 +341,7 @@ footer .monogram{display:block;margin-bottom:22px}
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap hero-inner">
-    <span class="monogram reveal">.G.G.G</span>
+    <img class="hero-logo reveal" src="img/logo.webp" alt="GGG Club — Goddess Gossip Glamour">
     <p class="kicker reveal">Goddess Gossip Glamour · колода для пар</p>
     <h1 class="reveal">Вечер<br>без телефонов</h1>
     <span class="script reveal">точка G — это состояние</span>
@@ -530,6 +535,7 @@ footer .monogram{display:block;margin-bottom:22px}
 <footer>
   <div class="wrap">
     <span class="roman reveal" aria-hidden="true" style="font-size:3.4rem;opacity:.2">VIII</span>
+    <img class="foot-logo" src="img/logo_small.webp" alt="GGG Club">
     <span class="monogram">.G.G.G</span>
     <div class="foot-links">
       <a href="https://t.me/alyosha_popovi44" target="_blank" rel="noopener">@alyosha_popovi44</a>
