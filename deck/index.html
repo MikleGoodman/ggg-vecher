@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GGG CLUB · Вечер вдвоём</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0B09;
+  --gold:#C6A15B;
+  --ivory:#EFE7D8;
+  --bronze:#8A7A5C;
+  --line:rgba(198,161,91,.28);
+  --line-soft:rgba(198,161,91,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ivory);
+  font-family:'Manrope',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+/* тёплое свечение сверху */
+.glow{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(198,161,91,.10), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(138,122,92,.06), transparent 60%);
+}
+/* зерно */
+.noise{
+  position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.serif{font-family:'Cormorant Garamond',serif}
+.caps{
+  font-family:'Manrope',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.24em;
+  font-size:.66rem;
+  font-weight:500;
+  color:var(--bronze);
+}
+.hairline{width:56px;height:1px;background:var(--line);border:none}
+.hairline.center{margin:1.4rem auto}
+
+/* ---------- screens ---------- */
+.screen{
+  display:none;
+  position:relative;z-index:2;
+  min-height:100vh;min-height:100dvh;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2.2rem 1.4rem;
+  text-align:center;
+  animation:screenIn .9s ease both;
+}
+.screen.active{display:flex}
+@keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- cover ---------- */
+.monogram{
+  font-family:'Cormorant Garamond',serif;
+  letter-spacing:.5em;
+  color:var(--gold);
+  font-size:1.05rem;
+  margin-bottom:2.6rem;
+}
+.cover-title{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:500;
+  font-size:clamp(2.6rem,9vw,4.6rem);
+  line-height:1.05;
+  letter-spacing:.01em;
+}
+.cover-title em{font-style:italic;color:var(--gold)}
+.cover-sub{
+  margin-top:1.6rem;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(1.05rem,3.6vw,1.35rem);
+  color:var(--bronze);
+  max-width:30ch;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  appearance:none;background:none;border:none;cursor:pointer;
+  font-family:'Manrope',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.26em;
+  font-size:.72rem;font-weight:500;
+  color:var(--ivory);
+  padding:1.05rem 2.4rem;
+  position:relative;
+  transition:color .35s ease;
+}
+.btn::after{
+  content:'';position:absolute;left:2.4rem;right:2.4rem;bottom:.55rem;
+  height:1px;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.btn:hover{color:var(--gold)}
+.btn:hover::after{transform:scaleX(1)}
+.btn.primary{
+  border:1px solid var(--line);
+  margin-top:3rem;
+}
+.btn.primary::after{display:none}
+.btn.primary:hover{border-color:var(--gold);color:var(--gold)}
+.btn.ghost{padding:.7rem 1.1rem;font-size:.62rem;color:var(--bronze)}
+.btn.ghost::after{left:1.1rem;right:1.1rem;bottom:.3rem}
+.btn.ghost:hover{color:var(--ivory)}
+
+/* ---------- rules ---------- */
+.rules-list{
+  list-style:none;max-width:34rem;margin-top:2.4rem;text-align:left;
+}
+.rules-list li{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.15rem,4.2vw,1.45rem);
+  line-height:1.5;
+  padding:1.05rem 0;
+  border-bottom:1px solid var(--line-soft);
+  display:flex;gap:1.1rem;align-items:baseline;
+}
+.rules-list li:last-child{border-bottom:none}
+.rules-list .rn{
+  font-family:'Cormorant Garamond',serif;
+  color:var(--gold);font-size:.95rem;min-width:2.2rem;
+}
+.rules-note{margin-top:2rem;max-width:32rem;font-style:italic;font-family:'Cormorant Garamond',serif;color:var(--bronze);font-size:1.05rem;line-height:1.6}
+
+/* ---------- modes ---------- */
+.modes-head{margin-bottom:2.4rem}
+.modes-grid{
+  display:grid;gap:1.1rem;width:100%;max-width:44rem;
+  grid-template-columns:1fr;
+}
+@media(min-width:640px){.modes-grid{grid-template-columns:1fr 1fr}}
+.mode-card{
+  appearance:none;background:none;cursor:pointer;text-align:left;
+  border:1px solid var(--line-soft);
+  padding:1.7rem 1.6rem 1.5rem;
+  transition:border-color .4s ease;
+  position:relative;
+  display:flex;flex-direction:column;gap:.7rem;
+}
+.mode-card:hover{border-color:var(--gold)}
+.mode-card .m-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.7rem;font-weight:500;letter-spacing:.02em;
+}
+.mode-card .m-for{color:var(--bronze);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.mode-card .m-desc{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ivory);opacity:.75;font-size:1.02rem;line-height:1.45}
+.mode-card .m-count{
+  margin-top:auto;padding-top:.9rem;
+  font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1rem;letter-spacing:.1em;
+  border-top:1px solid var(--line-soft);
+}
+.mode-card.exclusive{border-color:var(--line)}
+.mode-card .lock{
+  position:absolute;top:1.4rem;right:1.4rem;
+  display:flex;align-items:center;gap:.5rem;
+  color:var(--gold);
+}
+.mode-card .lock svg{width:13px;height:13px;stroke:var(--gold)}
+.mode-card .lock span{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+
+/* ---------- game ---------- */
+#screen-game{justify-content:space-between;padding-top:3.4rem;padding-bottom:1.6rem}
+.game-top{width:100%;max-width:40rem;display:flex;justify-content:space-between;align-items:center}
+.card-stage{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  width:100%;max-width:40rem;
+  perspective:1400px;
+  padding:1.5rem 0;
+}
+.card{
+  width:100%;
+  border:1px solid var(--line);
+  padding:clamp(2rem,7vw,3.4rem) clamp(1.6rem,6vw,3rem);
+  display:flex;flex-direction:column;align-items:center;gap:1.3rem;
+  background:linear-gradient(180deg, rgba(198,161,91,.045), rgba(13,11,9,0) 45%);
+  transition:transform .38s cubic-bezier(.4,0,.2,1), opacity .38s ease;
+  transform-style:preserve-3d;
+}
+.card.flip-out{transform:rotateY(88deg);opacity:0}
+.card.slide-left{transform:translateX(-46px);opacity:0}
+.card.slide-right{transform:translateX(46px);opacity:0}
+.q-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.2rem,12vw,4.6rem);
+  font-weight:400;color:var(--gold);line-height:1;
+  font-variant-numeric:lining-nums;
+}
+.q-level{color:var(--bronze)}
+.q-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.35rem,5vw,1.85rem);
+  line-height:1.5;
+  font-weight:500;
+  max-width:32ch;
+}
+.game-controls{width:100%;max-width:40rem;display:flex;flex-direction:column;gap:1.1rem;align-items:center}
+.controls-row{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;align-items:center}
+.progress-wrap{width:100%;display:flex;flex-direction:column;gap:.6rem;align-items:center}
+.progress-count{font-family:'Cormorant Garamond',serif;color:var(--bronze);letter-spacing:.3em;font-size:.95rem}
+.progress-count b{color:var(--gold);font-weight:500}
+.progress-bar{width:100%;max-width:22rem;height:1px;background:var(--line-soft);position:relative}
+.progress-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--gold);width:0;transition:width .6s cubic-bezier(.22,1,.36,1)}
+
+/* ---------- final ---------- */
+.final-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.7rem,6.5vw,2.7rem);
+  font-style:italic;font-weight:500;
+  line-height:1.35;max-width:24ch;
+}
+.final-quote em{color:var(--gold);font-style:italic}
+.timer-wrap{margin:2.8rem 0 1rem;position:relative;width:150px;height:150px}
+.timer-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer-track{fill:none;stroke:var(--line-soft);stroke-width:1}
+.timer-prog{fill:none;stroke:var(--gold);stroke-width:1;opacity:.7;
+  stroke-dasharray:439.8;stroke-dashoffset:439.8}
+.timer-label{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--bronze);
+  font-variant-numeric:tabular-nums;
+}
+.final-actions{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-top:1.6rem}
+
+.footer-mark{
+  position:fixed;bottom:1rem;left:0;right:0;text-align:center;z-index:2;
+  font-family:'Cormorant Garamond',serif;color:rgba(138,122,92,.4);
+  font-size:.72rem;letter-spacing:.42em;pointer-events:none;
+}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="noise"></div>
+
+<!-- 1 · ОБЛОЖКА -->
+<section class="screen active" id="screen-cover">
+  <div class="monogram">.G.G.G</div>
+  <p class="caps">Goddess · Gossip · Glamour</p>
+  <hr class="hairline center">
+  <h1 class="cover-title">Вечер <em>вдвоём</em></h1>
+  <p class="cover-sub">Устали доказывать — и решили просто сиять</p>
+  <button class="btn primary" data-go="screen-rules">Войти в клуб</button>
+</section>
+
+<!-- 2 · ПРАВИЛА -->
+<section class="screen" id="screen-rules">
+  <p class="caps">Правила клуба</p>
+  <hr class="hairline center">
+  <ul class="rules-list">
+    <li><span class="rn">I.</span><span>Каждый отвечает от первого лица. Не «мы», а «я».</span></li>
+    <li><span class="rn">II.</span><span>Здесь нет правильных ответов — есть только ваши.</span></li>
+    <li><span class="rn">III.</span><span>Если вопрос вызывает смех — вы на правильном пути.</span></li>
+    <li><span class="rn">IV.</span><span>Если вопрос вызывает паузу — вы на очень правильном пути.</span></li>
+  </ul>
+  <p class="rules-note">Если кто-то встал и ушёл «попить чай» — вы не готовы. Вернитесь уровнем ниже. Это не поражение, это навигация.</p>
+  <button class="btn primary" data-go="screen-modes">Мы готовы</button>
+</section>
+
+<!-- 3 · ВЫБОР РЕЖИМА -->
+<section class="screen" id="screen-modes">
+  <div class="modes-head">
+    <p class="caps">Меню вечера</p>
+    <hr class="hairline center">
+  </div>
+  <div class="modes-grid" id="modes-grid"></div>
+</section>
+
+<!-- 4 · ИГРА -->
+<section class="screen" id="screen-game">
+  <div class="game-top">
+    <button class="btn ghost" id="btn-menu">← Меню</button>
+    <p class="caps" id="game-mode-name"></p>
+    <button class="btn ghost" id="btn-random">Перемешать</button>
+  </div>
+  <div class="card-stage">
+    <div class="card" id="card">
+      <div class="q-num" id="q-num"></div>
+      <p class="caps q-level" id="q-level"></p>
+      <hr class="hairline">
+      <p class="q-text" id="q-text"></p>
+    </div>
+  </div>
+  <div class="game-controls">
+    <div class="controls-row">
+      <button class="btn ghost" id="btn-prev">Назад</button>
+      <button class="btn" id="btn-next">Следующий вопрос</button>
+    </div>
+    <div class="progress-wrap">
+      <p class="progress-count" id="progress-count"></p>
+      <div class="progress-bar"><i id="progress-fill"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · ФИНАЛ -->
+<section class="screen" id="screen-final">
+  <div class="monogram">.G.G.G</div>
+  <p class="final-quote">Точка G — это не место.<br>Это <em>состояние</em>.</p>
+  <p class="rules-note">Просто помолчите минуту. Держитесь за руки. Или не держитесь. Главное — будьте рядом.</p>
+  <div class="timer-wrap" id="timer-wrap" title="Минута тишины">
+    <svg viewBox="0 0 150 150">
+      <circle class="timer-track" cx="75" cy="75" r="70"></circle>
+      <circle class="timer-prog" id="timer-prog" cx="75" cy="75" r="70"></circle>
+    </svg>
+    <div class="timer-label" id="timer-label">60</div>
+  </div>
+  <div class="final-actions">
+    <button class="btn" id="btn-again">Начать заново</button>
+    <button class="btn ghost" id="btn-other">Выбрать другой режим</button>
+  </div>
+</section>
+
+<div class="footer-mark">.G.G.G CLUB</div>
+
+<script>
+'use strict';
+/* ================== ДАННЫЕ · ПОЛНЫЙ КАТАЛОГ ВОПРОСОВ ================== */
+/* [n, levelIndex, текст] — тексты перенесены дословно из каталога .G.G.G */
+const MODES = {
+  original: {
+    name: 'Вечер вдвоём',
+    menuName: 'Вечер вдвоём',
+    tag: 'Оригинальная колода',
+    forWhom: 'Для всех пар',
+    desc: 'Флагман клуба: от задора к глубине, три уровня честности.',
+    levels: [
+      { rn:'I',   label:'Уровень I · Тёплый-задорный' },
+      { rn:'II',  label:'Уровень II · Глубже, теплее, страшнее' },
+      { rn:'III', label:'Уровень III · Там, где свет не достаёт' }
+    ],
+    questions: [
+      [1,0,'Какой комплимент в СВОЙ адрес ты получаешь от других чаще, чем от меня — и это тебе обидно или ты вздыхаешь с облегчением?'],
+      [2,0,'Вспомни наш самый неловкий поцелуй. Где, когда, и почему он был именно таким — словно мы оба забыли, как это делается?'],
+      [3,0,'Если бы наше знакомство было фильмом, какой жанр бы стоял в титрах? Комедия? Триллер? Драма? Документальное кино о выживании?'],
+      [4,0,'Какую свою странную привычку ты скрывал(а) от меня первые полгода отношений — и когда сдался(ась)?'],
+      [5,0,'Что ты делаешь, когда думаешь, что я не вижу? (Да, я знаю про эти танцы под музыку наушников. Нет, они не такие элегантные, как тебе кажется.)'],
+      [6,0,'Назови три вещи, которые я делаю, и которые тебя бесят — но ты молчишь, потому что «не хочется ссориться по пустякам».'],
+      [7,0,'Какой наш общий друг или подруга, по-твоему, завидует нашим отношениям? Объясни, почему ты так думаешь — и не ври, я вижу твои глаза.'],
+      [8,0,'Вспомни нашу первую ссору. О чём она была на самом деле? (Подсказка: если ты говоришь «о носках под диваном» — ты лжёшь, и мы оба это знаем.)'],
+      [9,0,'Если бы ты мог(ла) подменить меня на один день — что бы ты первым делом сделал(а) «от моего имени»? Не стесняйся, я не обижусь. Ну, почти не обижусь.'],
+      [10,0,'Какой звук, запах или картинка мгновенно возвращает тебя к нашим первым месяцам? И ты рад(а) этому флешбэку или хочешь нажать «пропустить рекламу»?'],
+      [11,0,'Что я готовлю лучше всего — и что я готовлю так, что даже кот смотрит на меня с сочувствием?'],
+      [12,0,'Какую песню ты никогда не признаешься, что слушаешь — но я знаю, что она есть? (Да, я видел(а) твой плейлист. Нет, я не осуждаю. Ну, почти.)'],
+      [13,0,'Если бы наши отношения были рестораном — что бы было в меню «бизнес-ланч», а что — только по предзаказу?'],
+      [14,1,'Когда в последний раз ты чувствовал(а), что я тебя по-настоящему вижу — не просто смотрю, а именно вижу? Расскажи, что я сделал(а).'],
+      [15,1,'Какой твой страх или тревога я недооцениваю — потому что для меня это «мелочь», а для тебя это «ежедневный фон»?'],
+      [16,1,'Если бы ты мог(ла) написать мне письмо, которое я прочитаю только через 10 лет — что бы в нём было? (Можно не читать вслух, если страшно. Просто скажи тему.)'],
+      [17,1,'Что я делаю, что заставляет тебя чувствовать себя в безопасности — даже если ты сам(а) не осознаёшь этого?'],
+      [18,1,'Какой момент в наших отношениях был для тебя точкой невозврата — когда ты понял(а), что «всё, теперь я здесь надолго»?'],
+      [19,1,'Что ты боишься мне сказать, потому что думаешь, что я не пойму — или пойму неправильно? (Подсказка: я, скорее всего, уже догадываюсь. Но мне нужно, чтобы ты сам(а) сказал(а).)'],
+      [20,1,'Вспомни момент, когда я разочаровал(а) тебя. Не сильно — просто разочаровал(а). Что именно произошло, и почему ты промолчал(а)?'],
+      [21,1,'Если бы ты мог(ла) попросить меня о чём-то одном — и я бы не смог(ла) отказать — что бы это было? (Не «миллион долларов», будь умницей.)'],
+      [22,1,'Как ты думаешь, чего я боюсь в наших отношениях — но сам(а) не могу назвать? Скажи от моего имени.'],
+      [23,1,'Какая часть тебя осталась незамеченной мной? Не обязательно плохая — просто та, что ты хранишь отдельно, «для себя».'],
+      [24,1,'Если бы наши дети (или будущие дети, или племянники, или кот) спросили: «А почему вы вместе?» — что бы ты ответил(а)? Честно.'],
+      [25,1,'Когда ты думаешь обо мне, не рядом — а вот так, в течение дня, случайно — что приходит первым? Улыбка? Вздох? Тепло? Или «блядь, опять не вынесла мусор»?'],
+      [26,1,'Что я делаю, что заставляет тебя чувствовать себя любимым(ой) — без слов, без комплиментов, просто фактом присутствия?'],
+      [27,2,'Какое желание или фантазию ты всегда хотел(а) озвучить, но стеснялся(ась), потому что «а вдруг подумает, что я извращенец»? (Дыши. Я тоже человек. И у меня тоже есть свои.)'],
+      [28,2,'Когда в последний раз ты чувствовал(а) себя одиноким(ой) — рядом со мной? Не виновато, а просто факт: вот мы в одной комнате, а я далеко.'],
+      [29,2,'Что для тебя означает слово «близость» — и насколько мы к ней приближаемся? (Не путать с «мы рядом спим».)'],
+      [30,2,'Если бы ты мог(ла) изменить одну вещь в нашем физическом взаимодействии — что бы это было? (Не «всё», это трусость. Одна вещь.)'],
+      [31,2,'Какую свою «тёмную сторону» ты боишься показать мне — потому что думаешь, что я полюбил(а) только «светлую»?'],
+      [32,2,'Что ты никогда не скажешь вслух, но думаешь, когда мы занимаемся любовью? (Можно не отвечать. Можно ответить молчанием. Молчание — тоже ответ.)'],
+      [33,2,'Если бы наши отношения закончились завтра — что бы ты больше всего жалел(а)? Не «всего», а конкретно — один момент, один жест, одно слово.'],
+      [34,2,'Как ты думаешь, что я хочу от тебя — но не прошу, потому что стесняюсь или боюсь показаться слабой?'],
+      [35,2,'Когда ты смотришь на меня сейчас — что видишь? Не «любимого(ую)», а конкретно: человек, который... (дополни).'],
+      [36,2,'Что в тебе изменилось с тех пор, как мы встретились — и ты не уверен(а), что мне это нравится?'],
+      [37,2,'Если бы у нас был один вечер, как в самом начале — без обязанностей, без привычек, без «ну, пора спать» — что бы ты хотел(а) сделать?'],
+      [38,2,'Какой вопрос ты боишься, что я тебе задам — и почему?'],
+      [39,2,'Что бы ты хотел(а), чтобы я знал(а) о тебе — но ты никак не можешь это сформулировать?'],
+      [40,2,'Закрой глаза. Вспомни первый раз, когда ты понял(а), что я — это что-то. Не «влюбился(ась)» — а именно «что-то». Что это было за чувство — и оно до сих пор здесь?']
+    ]
+  },
+  light: {
+    name: 'Light',
+    menuName: 'Light',
+    tag: 'Безопасное погружение',
+    forWhom: 'Для пар 0–1 год',
+    desc: 'Двадцать вопросов для начала: тепло, юмор, никакой опасности.',
+    levels: [
+      { rn:'I',  label:'Уровень I · Тёплый-задорный' },
+      { rn:'II', label:'Уровень II · Глубже, но безопасно' }
+    ],
+    questions: [
+      [1,0,'Какой свой странный звук, жест или привычку ты скрывал(а) от меня первые недели — и когда понял(а), что я всё равно останусь?'],
+      [2,0,'Если бы наше первое свидание было блюдом в ресторане — что бы это было? (Суп? Острое? Десерт, который растаял?)'],
+      [3,0,'Какую песню ты тайно ассоциируешь со мной — и стыдно признаться, какую?'],
+      [4,0,'Что я делаю, что тебя раздражает — но ты молчишь, потому что «ещё рано ссориться»?'],
+      [5,0,'Если бы ты мог(ла) одолжить одну мою способность на день — что бы ты выбрал(а)? (Не отвечай «терпение», это слишком очевидно.)'],
+      [6,0,'Вспомни наш самый нелепый момент. Тот, после которого мы оба смотрели друг на друга и думали: «мы либо посмеёмся, либо расстанемся».'],
+      [7,0,'Какой фильм, книга или сериал ты никогда не признаешься, что любишь — а я, кажется, уже догадываюсь?'],
+      [8,0,'Что ты делаешь, когда думаешь, что я не вижу? (Танцы под наушники — не считается, это уже вскрыто.)'],
+      [9,0,'Если бы наши отношения были приложением — какой у них был бы рейтинг в App Store и какой отзыв ты бы написал(а)?'],
+      [10,0,'Какой мой наряд / причёска / вид ты запомнил(а) лучше всего — и почему именно тот?'],
+      [11,0,'Что ты боишься, что я спрошу — но втайне хочешь, чтобы я спросил(а)?'],
+      [12,0,'Если бы мы оба были персонажами мультфильма — кем бы мы были? И кто из нас — злодей?'],
+      [13,1,'Какой момент с нами ты вспоминаешь, когда тебе грустно — и он сразу немного лучше?'],
+      [14,1,'Что для тебя означает слово «забота» — и когда в последний раз ты чувствовал(а) её от меня именно так, как тебе нужно?'],
+      [15,1,'Если бы ты мог(ла) написать мне письмо, которое я прочитаю через год — что бы в нём было? (Только хорошее. Это Light-версия, помни.)'],
+      [16,1,'Какой мой жест, слово или привычка говорит тебе «я рядом» — даже когда мы молчим?'],
+      [17,1,'Что ты никогда не делал(а) в отношениях раньше — но со мной почему-то получается?'],
+      [18,1,'Какой наш «ритуал» (пусть он и случайный) ты бы хотел(а) сохранить — даже когда всё станет «обычным»?'],
+      [19,1,'Что ты боишься потерять в наших отношениях — и это не про меня, а про какое-то чувство или состояние?'],
+      [20,1,'Закрой глаза. Вспомни первый раз, когда ты подумал(а): «Вот это — что-то. Не любовь ещё. Но что-то». Что это было?']
+    ]
+  },
+  deep: {
+    name: 'Deep',
+    menuName: 'Deep',
+    tag: 'Восстановление и переоткрытие',
+    forWhom: '5+ лет / после кризиса',
+    desc: 'Пятьдесят вопросов для ветеранов: перезнакомство, ремонт, глубина.',
+    levels: [
+      { rn:'I',   label:'Уровень I · Перезнакомство' },
+      { rn:'II',  label:'Уровень II · Там, где болело' },
+      { rn:'III', label:'Уровень III · Ремонтный блок' },
+      { rn:'IV',  label:'Уровень IV · Глубинная близость' },
+      { rn:'V',   label:'Финальный блок · Вопросы, которые меняют всё' }
+    ],
+    questions: [
+      [1,0,'Если бы мы встретились сегодня впервые — что бы ты обо мне подумал(а)? Честно. Без «ну, я же тебя люблю».'],
+      [2,0,'Какую одну вещь во мне ты заметил(а) в первый месяц — и до сих пор не понимаешь, как это работает?'],
+      [3,0,'Если бы нашу историю рассказал незнакомец — какой момент он бы назвал «поворотным», а мы бы оба крикнули: «Нет, не тот!»?'],
+      [4,0,'Что я делаю сейчас — прямо сейчас — что тебя раздражает так же, как 5 лет назад? И почему ты до сих пор молчишь?'],
+      [5,0,'Какую часть себя ты «сдал(а)» за годы отношений — и жалеешь? (Не «жертвовал(а)», а именно «сдал(а)» — как флаг.)'],
+      [6,0,'Если бы ты мог(ла) одолжить мою какую-либо способность, чтобы решить одну свою проблему — что бы это было?'],
+      [7,0,'Какой наш общий ритуал ты бы отменил(а) без сожаления — а какой защитил(а) бы зубами?'],
+      [8,0,'Что ты делаешь, когда думаешь, что я не замечу — и думаешь, что я уже давно заметил(а), но тоже молчу?'],
+      [9,0,'Какую песню, фильм или запах ты ассоциируешь с нами — и стыдно, что это именно она/он/он?'],
+      [10,0,'Если бы наши дети (или друзья, или кот) спросили: «А почему вы всё ещё вместе?» — что бы ты ответил(а) первым делом? Не «потому что любим», а по-человечески.'],
+      [11,0,'Какой момент за последний год ты никому не рассказывал(а) — но помнишь, как вчера?'],
+      [12,0,'Что во мне изменилось с тех пор, как мы встретились — и ты не уверен(а), что мне это нравится?'],
+      [13,1,'Вспомни момент, когда я разочаровал(а) тебя. Не сильно — просто разочаровал(а). Что произошло, и почему ты промолчал(а)?'],
+      [14,1,'Какой разговор мы так и не довели до конца — потому что «не тот момент», «не тот настрой», «да ладно, проехали»?'],
+      [15,1,'Что ты перестал(а) просить у меня — потому что научился(ась), что я всё равно не услышу?'],
+      [16,1,'Если бы ты мог(ла) написать мне письмо, которое я прочитаю только через 10 лет — что бы в нём было? (Теперь можно и не только хорошее.)'],
+      [17,1,'Какой мой поступок или слово застряло у тебя в горле — и ты проглатывал(а) его снова и снова?'],
+      [18,1,'Что ты думаешь о наших отношениях, когда мы не вместе? (На работе, в дороге, перед сном.)'],
+      [19,1,'Какой момент в наших отношениях был для тебя точкой невозврата — и ты выбрал(а) остаться, хотя мог(ла) уйти?'],
+      [20,1,'Что я делаю, что заставляет тебя чувствовать себя невидимым(ой) — даже когда я рядом?'],
+      [21,1,'Если бы наши отношения были домом — какая комната в нём заперта? И что там?'],
+      [22,1,'Что ты боишься мне сказать, потому что думаешь: «он(а) и так знает» — но на самом деле я не знаю?'],
+      [23,1,'Когда в последний раз ты чувствовал(а), что я тебя по-настоящему вижу? Если не помнишь — что это значит?'],
+      [24,1,'Что в наших отношениях ты считаешь «нормой» — но втайне надеешься, что это можно изменить?'],
+      [25,2,'Если бы ты мог(ла) попросить меня о чём-то одном — и я бы не смог(ла) отказать — что бы это было? (Реалистично. Не «чтобы ты изменился полностью».)'],
+      [26,2,'Какую мою «оправдательную фразу» ты ненавидишь больше всего? («Я просто устал(а)», «Ну ты же знаешь, какой(ая) я», «Это не то, что ты думаешь»...)'],
+      [27,2,'Что я мог(ла) бы сделать завтра — одно действие, маленькое, конкретное — что бы тебе стало легче?'],
+      [28,2,'Какую свою ошибку в наших отношениях ты готов(а) признать — без «но ты тоже»?'],
+      [29,2,'Если бы мы могли стереть один наш конфликт из памяти — какой бы ты выбрал(а)? И почему именно этот?'],
+      [30,2,'Что для тебя означает слово «прощение» — и есть ли что-то, что ты ещё не простил(а)? (Не обязательно мне. Может, себе.)'],
+      [31,2,'Какой новый ритуал мы могли бы создать — чтобы заменить тот, который сломался?'],
+      [32,2,'Что ты никогда не говорил(а) мне после ссоры — потому что «проехали» — но хотел(а) бы?'],
+      [33,2,'Если бы наши отношения были приложением — какую функцию ты бы добавил(а)? А какую — убрал(а)?'],
+      [34,2,'Какую часть себя ты готов(а) показать мне сегодня — ту, которую прятал(а) раньше?'],
+      [35,2,'Что бы ты хотел(а), чтобы я знал(а) о тебе — но ты никак не можешь это сформулировать? Попробуй. Я слушаю.'],
+      [36,2,'Если бы мы начинали сегодня заново — что бы ты сделал(а) иначе в первый месяц?'],
+      [37,3,'Какое желание или фантазию ты всегда хотел(а) озвучить — но стеснялся(ась), боялся(ась) или думал(а), что я не пойму?'],
+      [38,3,'Когда в последний раз ты чувствовал(а) себя одиноким(ой) — рядом со мной? Не виновато. Просто факт.'],
+      [39,3,'Что для тебя означает слово «близость» сейчас — и насколько мы к ней приближаемся? (Не путать с «мы рядом спим».)'],
+      [40,3,'Какую свою «тёмную сторону» ты боишься показать мне — потому что думаешь, что я полюбил(а) только «светлую»?'],
+      [41,3,'Что ты никогда не скажешь вслух, но думаешь, когда мы занимаемся любовью?'],
+      [42,3,'Если бы наши отношения закончились завтра — что бы ты больше всего жалел(а)? Не «всего», а конкретно.'],
+      [43,3,'Как ты думаешь, что я хочу от тебя — но не прошу, потому что стесняюсь или боюсь показаться слабой?'],
+      [44,3,'Когда ты смотришь на меня сейчас — что видишь? Не «любимого(ую)». А конкретно: человек, который...'],
+      [45,3,'Какое моё прикосновение говорит тебе «я рядом» без слов? Не объятие. Не поцелуй. А именно прикосновение.'],
+      [46,3,'Что для тебя означает слово «нежность» — и хватает ли её в наших отношениях прямо сейчас?'],
+      [47,4,'Что в тебе изменилось с тех пор, как мы встретились — и ты боишься, что я это заметил(а), но не сказал(а)?'],
+      [48,4,'Если бы у нас был один вечер, как в самом начале — без обязанностей, без привычек, без «ну, пора спать» — что бы ты хотел(а) сделать?'],
+      [49,4,'Какой вопрос ты боишься, что я тебе задам — и почему?'],
+      [50,4,'Закрой глаза. Вспомни первый раз, когда ты понял(а), что я — это что-то. Не «влюбился(ась)» — а именно «что-то». Что это было за чувство — и оно до сих пор здесь?']
+    ]
+  },
+  level6: {
+    name: 'Уровень 6',
+    menuName: 'Уровень 6',
+    tag: 'Эксклюзив клуба',
+    forWhom: 'Интеграция и искорка',
+    desc: 'Глубина + лёгкость + эротика + мечта. Пять блоков, сорок признаний.',
+    exclusive: true,
+    levels: [
+      { rn:'I',  label:'Блок I · Ностальгия с искоркой' },
+      { rn:'II', label:'Блок II · Тонкое признание' },
+      { rn:'III',label:'Блок III · Фантазии на двоих' },
+      { rn:'IV', label:'Блок IV · Тайные желания' },
+      { rn:'V',  label:'Блок V · Будущее в наших руках' }
+    ],
+    questions: [
+      [1,0,'Помнишь запах того места, где мы впервые поцеловались? Опиши его тремя словами — не используя "хорошо" и "волнующе".'],
+      [2,0,'Какая моя причёска или вещь из наших первых свиданий до сих пор живёт у тебя в голове отдельной галереей?'],
+      [3,0,'Если бы нашу историю продавали как парфюм, как бы назывался флакон и что было бы в описании?'],
+      [4,0,'Какой наш поцелуй ты вспоминаешь чаще всего — и почему именно тот?'],
+      [5,0,'Что из нашей первой совместной поездки ты помнишь лучше, чем я?'],
+      [6,0,'Если бы ты мог отправить SMS самому себе в день нашей встречи, что бы написал в десяти словах?'],
+      [7,0,'Какой мой наряд ты до сих пор хранишь в голове в папке "нельзя забыть"?'],
+      [8,0,'Какая песня из нашего прошлого заставляет тебя невольно улыбаться в транспорте?'],
+      [9,1,'Какая моя мелочь (жест, привычка, словечко) заставляет тебя думать: "Боже, как я её/его люблю"?'],
+      [10,1,'Что я делаю такого, что никто до меня с тобой не делал?'],
+      [11,1,'Какой мой "недостаток" ты уже давно переквалифицировал у себя в голове в достоинство?'],
+      [12,1,'Если бы тебе предложили стереть одну нашу ссору из памяти — какую бы ты оставил, потому что она нас сделала лучше?'],
+      [13,1,'Что во мне раздражает всех остальных, а тебе кажется очаровательным?'],
+      [14,1,'Какой мой взгляд ты можешь узнать с закрытыми глазами?'],
+      [15,1,'Если бы наши отношения были запахом раннего утра — чем бы пахло?'],
+      [16,1,'Какая моя фраза, сказанная шёпотом, до сих пор откликается в тебе громче, чем крики улицы?'],
+      [17,2,'Если бы мы были преступной парой из фильма — какое было бы наше дело и кто бы нас играл?'],
+      [18,2,'Если бы тебе пришлось выбирать: целый год только обниматься или целый год только разговаривать — что бы выбрал и почему?'],
+      [19,2,'Если бы мы попали в фильм ужасов, кто из нас кричал бы первым, а кто спасал?'],
+      [20,2,'Если бы мы оба потеряли память и встретились заново — как бы ты меня соблазнил(а) без слов?'],
+      [21,2,'Если бы наша любовь была блюдом в ресторане — как бы её описал шеф-повар?'],
+      [22,2,'Если бы мы могли поменяться телами на сутки — что бы ты сделал(а) в моём теле, чего я бы не заметил(а)?'],
+      [23,2,'Если бы нашу пару наняли вести утреннее шоу на радио — как бы оно называлось и о чём мы болтали бы?'],
+      [24,2,'Если бы нам предложили жить вечно, но только в одном возрасте — каком бы выбрал(а) для нас?'],
+      [25,3,'Что ты молча завидуешь во мне — и при этом гордишься мной?'],
+      [26,3,'Какой комплимент от меня ты хочешь услышать, но никогда не попросишь?'],
+      [27,3,'Что я делаю (или не делаю), что заставляет тебя чувствовать себя самым желанным человеком на свете?'],
+      [28,3,'Если бы ты мог(ла) попросить меня о чём-то "неприличном" без стыда — что бы это было?'],
+      [29,3,'Какая моя часть тела для тебя — самая неожиданная слабость?'],
+      [30,3,'Что ты боишься, что я никогда не пойму о тебе — но если бы понял(а), всё изменилось бы?'],
+      [31,3,'Какой наш интимный момент ты вспоминаешь, когда хочешь почувствовать себя любимым(ой)?'],
+      [32,3,'Если бы я предложил(а) тебе "запретное" свидание (куда угодно, делать что угодно) — куда бы мы поехали?'],
+      [33,4,'Какую нашу традицию ты хочешь начать прямо сейчас — и никогда не бросать?'],
+      [34,4,'Если бы мы написали письмо друг другу через 10 лет — что бы ты хотел(а), чтобы я там прочитал(а)?'],
+      [35,4,'Какой навык или привычку ты хочешь украсть у меня и присвоить себе?'],
+      [36,4,'Если бы мы могли выбрать: стать соседями по комнате в детском саду или в доме престарелых — что бы выбрал(а) и почему?'],
+      [37,4,'Какой подарок, который я ещё не дарил(а), ты тайно хочешь получить?'],
+      [38,4,'Если бы наша жизнь была книгой — как бы называлась следующая глава?'],
+      [39,4,'Что ты хочешь, чтобы я запомнил(а) о тебе, если когда-нибудь забуду всё остальное?'],
+      [40,4,'Какой вопрос из этого списка ты бы хотел(а), чтобы я тебе задал(а) — но сам(а) никогда не осмелишься?']
+    ]
+  }
+};
+
+/* ================== ДЕБАГ-СЧЁТЧИК ================== */
+(function(){
+  const counts = Object.fromEntries(Object.entries(MODES).map(([k,m])=>[k,m.questions.length]));
+  const total = Object.values(counts).reduce((a,b)=>a+b,0);
+  console.log('[GGG] Вопросов встроено:', counts, '· ИТОГО:', total);
+})();
+
+/* ================== СОСТОЯНИЕ ================== */
+const LS_KEY = 'ggg-vecher-v1';
+const state = { mode:null, order:[], pos:0 };
+
+function saveState(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify({mode:state.mode, order:state.order, pos:state.pos})); }catch(e){}
+}
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(LS_KEY));
+    if(s && MODES[s.mode] && Array.isArray(s.order) && s.order.length === MODES[s.mode].questions.length){
+      state.mode = s.mode; state.order = s.order; state.pos = Math.min(s.pos|0, s.order.length-1);
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+/* ================== НАВИГАЦИЯ ПО ЭКРАНАМ ================== */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById(id);
+  void el.offsetWidth; /* перезапуск анимации */
+  el.classList.add('active');
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+
+/* ================== МЕНЮ РЕЖИМОВ ================== */
+const MODE_ORDER = ['light','original','deep','level6'];
+const grid = document.getElementById('modes-grid');
+MODE_ORDER.forEach(key=>{
+  const m = MODES[key];
+  const btn = document.createElement('button');
+  btn.className = 'mode-card' + (m.exclusive ? ' exclusive' : '');
+  btn.innerHTML =
+    (m.exclusive
+      ? '<span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Эксклюзив клуба</span></span>'
+      : '') +
+    '<span class="caps">' + m.tag + '</span>' +
+    '<span class="m-name">' + m.menuName + '</span>' +
+    '<span class="m-for">' + m.forWhom + '</span>' +
+    '<span class="m-desc">' + m.desc + '</span>' +
+    '<span class="m-count">' + m.questions.length + ' вопросов · ' + m.levels.length + ' ' + (key==='level6'?'блоков':'уровней') + '</span>';
+  btn.addEventListener('click',()=>startMode(key));
+  grid.appendChild(btn);
+});
+
+/* ================== ИГРА ================== */
+const cardEl = document.getElementById('card');
+const qNum = document.getElementById('q-num');
+const qLevel = document.getElementById('q-level');
+const qText = document.getElementById('q-text');
+const progCount = document.getElementById('progress-count');
+const progFill = document.getElementById('progress-fill');
+const modeNameEl = document.getElementById('game-mode-name');
+const btnNext = document.getElementById('btn-next');
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function startMode(key){
+  if(state.mode !== key){
+    state.mode = key;
+    state.order = MODES[key].questions.map((_,i)=>i);
+    state.pos = 0;
+  }
+  saveState();
+  modeNameEl.textContent = MODES[key].name;
+  show('screen-game');
+  renderCard(true);
+}
+
+function currentQ(){
+  const m = MODES[state.mode];
+  return m.questions[state.order[state.pos]];
+}
+
+function renderCard(instant){
+  const m = MODES[state.mode];
+  const [n, lv, text] = currentQ();
+  const paint = ()=>{
+    qNum.textContent = pad(n);
+    qLevel.textContent = m.levels[lv].label;
+    qText.textContent = text;
+    progCount.innerHTML = '<b>' + pad(state.pos+1) + '</b> / ' + pad(m.questions.length);
+    progFill.style.width = ((state.pos+1)/m.questions.length*100) + '%';
+    btnNext.textContent = (state.pos === m.questions.length-1) ? 'Завершить вечер' : 'Следующий вопрос';
+  };
+  if(instant){ paint(); return; }
+  cardEl.classList.add('flip-out');
+  setTimeout(()=>{ paint(); cardEl.classList.remove('flip-out'); }, 390);
+}
+
+function step(dir){
+  const total = MODES[state.mode].questions.length;
+  const np = state.pos + dir;
+  if(np < 0) return;
+  if(np >= total){ finishMode(); return; }
+  state.pos = np; saveState(); renderCard(false);
+}
+
+function shuffle(){
+  const cur = state.order[state.pos];
+  for(let i=state.order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [state.order[i],state.order[j]] = [state.order[j],state.order[i]];
+  }
+  state.order.splice(state.order.indexOf(cur),1);
+  state.order.unshift(cur);
+  state.pos = 0; saveState(); renderCard(false);
+}
+
+document.getElementById('btn-next').addEventListener('click',()=>step(1));
+document.getElementById('btn-prev').addEventListener('click',()=>step(-1));
+document.getElementById('btn-random').addEventListener('click',shuffle);
+document.getElementById('btn-menu').addEventListener('click',()=>show('screen-modes'));
+
+/* ================== ФИНАЛ · ТАЙМЕР ================== */
+const CIRC = 439.8; /* 2πr, r=70 */
+let timerRAF = null;
+function finishMode(){
+  show('screen-final');
+  startTimer();
+}
+function startTimer(){
+  cancelAnimationFrame(timerRAF);
+  const prog = document.getElementById('timer-prog');
+  const label = document.getElementById('timer-label');
+  const t0 = performance.now(), DUR = 60000;
+  const tick = (t)=>{
+    const el = Math.min(t - t0, DUR);
+    const frac = el / DUR;
+    prog.style.strokeDashoffset = CIRC * (1 - frac);
+    label.textContent = Math.ceil((DUR - el)/1000);
+    if(el < DUR){ timerRAF = requestAnimationFrame(tick); }
+    else { label.textContent = '·'; }
+  };
+  timerRAF = requestAnimationFrame(tick);
+}
+document.getElementById('timer-wrap').addEventListener('click', startTimer);
+document.getElementById('btn-again').addEventListener('click',()=>{
+  state.order = MODES[state.mode].questions.map((_,i)=>i);
+  state.pos = 0; saveState();
+  modeNameEl.textContent = MODES[state.mode].name;
+  show('screen-game'); renderCard(true);
+});
+document.getElementById('btn-other').addEventListener('click',()=>show('screen-modes'));
+
+/* ================== СВАЙПЫ (мобильные) ================== */
+let touchX = null;
+cardEl.addEventListener('touchstart',e=>{ touchX = e.touches[0].clientX; },{passive:true});
+cardEl.addEventListener('touchend',e=>{
+  if(touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(Math.abs(dx) > 56){ step(dx < 0 ? 1 : -1); }
+  touchX = null;
+},{passive:true});
+
+/* ================== ВОССТАНОВЛЕНИЕ ПРОГРЕССА ================== */
+/* Если есть незавершённая сессия — на обложке появляется «Продолжить». */
+(function(){
+  if(loadState() && state.pos > 0){
+    const b = document.createElement('button');
+    b.className = 'btn ghost';
+    b.style.marginTop = '1.2rem';
+    b.textContent = 'Продолжить: ' + MODES[state.mode].name + ' · ' + pad(state.pos+1);
+    b.addEventListener('click',()=>{
+      modeNameEl.textContent = MODES[state.mode].name;
+      show('screen-game'); renderCard(true);
+    });
+    document.querySelector('#screen-cover .btn.primary').after(b);
+  }
+})();
+</script>
+</body>
+</html>
